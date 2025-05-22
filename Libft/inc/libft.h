@@ -6,20 +6,21 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:16:10 by maati             #+#    #+#             */
-/*   Updated: 2025/02/21 12:43:13 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:17:17 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <string.h>
-# include <unistd.h>
+# include "color.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-
-# include "get_next_line.h"
-# include "ft_printf.h"
+# include <string.h>
+# include <unistd.h>
 
 // checks if the character is an alphabet
 int		ft_isalpha(int c);
@@ -76,7 +77,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_bzero(void *s, size_t n);
 
 // applies a function to each character of a string
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 // writes a character to a memory block
 void	*ft_memset(void *s, int c, size_t n);

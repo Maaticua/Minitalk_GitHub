@@ -6,56 +6,77 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:17:28 by macaruan          #+#    #+#             */
-/*   Updated: 2025/04/23 15:03:24 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:48:48 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _POSIX_C_SOURCE 200809L
 #include "minitalk.h"
 
-void	handle_sig(int sig, siginfo_t *info, void *context)
+void	ft_mess(char c)
 {
-	static unsigned char	c = 0;
-	static int				bit = 0;
-	static pid_t			current_pid = 0;
+	static char	*msg = NULL;
+	char		*temp;
+	char		c_2[2];
 
-	(void)context;
-
-	if (current_pid != 0 && info->si_pid != current_pid)
-		return ;
-
-	if (current_pid == 0)
-		current_pid = info->si_pid;
-
-	if (sig == SIGUSR2)
-		c |= (1 << (7 - bit));
-	bit++;
-
-	kill(info->si_pid, SIGUSR1);
-
-	if (bit == 8)
+	c_2[0] = c;
+	c_2[1] = '\0';
+	if (msg == NULL)
+		msg = ft_strdup(c_2);
+	else
 	{
-		if (c == '\0')
-		{
-			ft_printf("\n--fin de transmission--\n");
-			current_pid = 0;
-		}
-		else
-			write(1, &c, 1);
-		bit = 0;
-		c = 0;
+		temp = ft_strjoin(msg, c_2);
+		free(msg);
+		msg = temp;
+	}
+	if (c == '\0')
+	{
+		ft_printf(YELLOW "message :");
+		ft_printf(MAGENTA "%s\n" RESET,msg);
+		free(msg);
+		msg = NULL;
 	}
 }
 
-int	main(void)
+void	handle_sig(int signal, siginfo_t *info, void *context)
 {
-	struct sigaction	sa;
+	static char	c = 0;
+	static int	bit = 0;
 
-	sa.sa_sigaction = handle_sig;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	ft_printf("PID : %d\n", getpid());
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	(void)context;
+	if (signal == SIGUSR1)
+	{
+		c = c << 1;
+	}
+	else if (signal == SIGUSR2)
+	{
+		c = (c << 1) | 1;
+	}
+	if (bit < 7)
+		bit++;
+	else
+	{
+		ft_mess(c);
+		bit = 0;
+		c = 0;
+	}
+	kill(info->si_pid, SIGUSR1);
+}
+
+int main()
+{
+	struct sigaction	sig;
+	pid_t	pid;
+
+	pid = getpid();
+	ft_printf(GREEN "PID du serv: %d\n" RESET, pid);
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_sigaction = &handle_sig;
+	sig.sa_flags = SA_SIGINFO;
+	sigemptyset(&sig.sa_mask);
+	sigaction(SIGUSR1, &sig, NULL);
+	sigaction(SIGUSR2, &sig, NULL);
 	while (1)
 		pause();
 }
+
