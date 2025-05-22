@@ -6,7 +6,7 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:43:08 by macaruan          #+#    #+#             */
-/*   Updated: 2025/05/21 16:43:10 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:02:16 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define CYAN    "\033[36m"
 # define WHITE   "\033[37m"
 # define RESET   "\033[0m"
-#define PURPLE "\033[0;35m"
-#define BLINK      "\033[5m"
-#define CLEAR   "\033[2J\033[H"
+# define PURPLE "\033[0;35m"
+# define BLINK      "\033[5m"
+# define CLEAR   "\033[2J\033[H"
 #endif

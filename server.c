@@ -6,11 +6,10 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:17:28 by macaruan          #+#    #+#             */
-/*   Updated: 2025/05/22 10:48:48 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:03:01 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _POSIX_C_SOURCE 200809L
 #include "minitalk.h"
 
 void	ft_mess(char c)
@@ -32,7 +31,7 @@ void	ft_mess(char c)
 	if (c == '\0')
 	{
 		ft_printf(YELLOW "message :");
-		ft_printf(MAGENTA "%s\n" RESET,msg);
+		ft_printf(MAGENTA "%s\n" RESET, msg);
 		free(msg);
 		msg = NULL;
 	}
@@ -63,10 +62,10 @@ void	handle_sig(int signal, siginfo_t *info, void *context)
 	kill(info->si_pid, SIGUSR1);
 }
 
-int main()
+int	main(void)
 {
 	struct sigaction	sig;
-	pid_t	pid;
+	pid_t				pid;
 
 	pid = getpid();
 	ft_printf(GREEN "PID du serv: %d\n" RESET, pid);
@@ -79,4 +78,3 @@ int main()
 	while (1)
 		pause();
 }
-

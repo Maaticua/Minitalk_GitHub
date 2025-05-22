@@ -6,7 +6,7 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:02:57 by macaruan          #+#    #+#             */
-/*   Updated: 2025/05/21 18:19:52 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:59:38 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,4 @@ int	main(int ac, char **av)
 		exit(0);
 	}
 	ft_print_str(av[2], pid);
-
 }
-
