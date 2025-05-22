@@ -6,7 +6,7 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:02:57 by macaruan          #+#    #+#             */
-/*   Updated: 2025/05/22 10:59:38 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:14:08 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	ft_print_bit(char c, pid_t pid)
 {
 	int	i;
 
-	i = 7;
-	while (i >= 0)
+	i = 0;
+	while (i < 8)
 	{
 		if (((c >> i) & 1) == 0)
 		{
@@ -37,12 +37,12 @@ void	ft_print_bit(char c, pid_t pid)
 		{
 			kill(pid, SIGUSR2);
 		}
-		g_recu = 0;
 		while (!g_recu)
 		{
 			usleep(10);
 		}
-		i--;
+		g_recu = 0;
+		i++;
 	}
 }
 

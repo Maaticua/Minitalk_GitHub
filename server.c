@@ -6,11 +6,22 @@
 /*   By: macaruan <macaruan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:17:28 by macaruan          #+#    #+#             */
-/*   Updated: 2025/05/22 11:03:01 by macaruan         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:58:45 by macaruan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+static void	ft_clear_msg(void)
+{
+	static char	*msg = NULL;
+
+	if (msg)
+	{
+		free(msg);
+		msg = NULL;
+	}
+}
 
 void	ft_mess(char c)
 {
@@ -39,21 +50,22 @@ void	ft_mess(char c)
 
 void	handle_sig(int signal, siginfo_t *info, void *context)
 {
-	static char	c = 0;
-	static int	bit = 0;
+	static pid_t	last_pid = 0;
+	static int		bit = 0;
+	static char		c = 0;
 
 	(void)context;
-	if (signal == SIGUSR1)
+	if (last_pid != info->si_pid)
 	{
-		c = c << 1;
+		c = 0;
+		bit = 0;
+		ft_clear_msg();
 	}
-	else if (signal == SIGUSR2)
-	{
-		c = (c << 1) | 1;
-	}
-	if (bit < 7)
-		bit++;
-	else
+	last_pid = info->si_pid;
+	if (signal == SIGUSR2)
+		c |= (1 << bit);
+	bit++;
+	if (bit == 8)
 	{
 		ft_mess(c);
 		bit = 0;
